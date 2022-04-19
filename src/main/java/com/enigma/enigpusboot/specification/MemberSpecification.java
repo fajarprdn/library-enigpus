@@ -28,6 +28,12 @@ public class MemberSpecification {
                     predicates.add(memberLastNamePredicate);
 
                 }
+
+                if(!(memberSearchDTO.getSearchMemberUserName()==null)){
+                    Predicate memberUserNamePredicate = criteriaBuilder.like(root.get("userName"),"%"+memberSearchDTO.getSearchMemberUserName()+"%");
+                    predicates.add(memberUserNamePredicate);
+
+                }
                 Predicate [] arrayPredicate = predicates.toArray(new Predicate[predicates.size()]);
                 return criteriaBuilder.and(arrayPredicate);
             }

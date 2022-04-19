@@ -36,6 +36,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Member getMemberByUserName(String userName) {
+        if (!(memberRepository.findByUserName(userName)==null)){
+            Member member = memberRepository.findByUserName(userName);
+            return member;
+        }
+        return null;
+    }
+
+    @Override
     public Member saveMember(Member member) {
         return memberRepository.save(member);
     }

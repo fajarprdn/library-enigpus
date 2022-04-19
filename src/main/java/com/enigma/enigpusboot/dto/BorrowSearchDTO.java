@@ -12,5 +12,6 @@ import lombok.Setter;
 public class BorrowSearchDTO {
     private String searchBorrowById;
     private String searchBorrowByStatus;
+    private String searchBorrowByUserName;
 //    private String searchBorrowByUserName;
 }

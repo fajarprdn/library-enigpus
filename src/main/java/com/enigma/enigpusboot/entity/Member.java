@@ -9,7 +9,9 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,4 +39,6 @@ public class Member {
     private String userName;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    @OneToMany(mappedBy = "member")
+    private List<Borrow> borrows = new ArrayList<>();
 }

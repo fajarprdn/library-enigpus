@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,4 +28,6 @@ public class Book {
     private String publicationYear;
     private String publisher;
     private Integer stock;
+    @OneToMany(mappedBy = "book")
+    private List<Borrow> borrow;
 }

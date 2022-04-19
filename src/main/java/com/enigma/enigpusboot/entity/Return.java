@@ -25,7 +25,7 @@ public class Return {
     @Column(name = "return_date")
     private Date returnDate;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "borrow_id")
     private Borrow borrow;
 }

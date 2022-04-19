@@ -1,6 +1,7 @@
 package com.enigma.enigpusboot.specification;
 
 import com.enigma.enigpusboot.dto.BorrowSearchDTO;
+import com.enigma.enigpusboot.dto.MemberSearchDTO;
 import com.enigma.enigpusboot.entity.Borrow;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowSpecification {
-    public static Specification getBorrowSpecification(BorrowSearchDTO borrowSearchDTO){
+    public static Specification getBorrowSpecification(BorrowSearchDTO borrowSearchDTO, MemberSearchDTO memberSearchDTO){
         return new Specification<Borrow>() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder criteriaBuilder) {
@@ -20,6 +21,11 @@ public class BorrowSpecification {
                 if(!(borrowSearchDTO.getSearchBorrowById()==null)){
                     Predicate borrowSearchPredicate = criteriaBuilder.like(root.get("id"),"%"+borrowSearchDTO.getSearchBorrowById().toLowerCase()+"%");
                     predicates.add(borrowSearchPredicate);
+                }
+
+                if(!(memberSearchDTO.getSearchMemberUserName()==null)){
+                    Predicate userNameBorrowSearchPredicate = criteriaBuilder.like(root.get("userName"),"%"+memberSearchDTO.getSearchMemberUserName()+"%");
+                    predicates.add(userNameBorrowSearchPredicate);
                 }
 //                if(!(borrowSearchDTO.getSearchBorrowByStatus()=="INACTIVE"){
 //                    Predicate borrowStatusPredicate = criteriaBuilder.like(root.get("status"),"%"+)
