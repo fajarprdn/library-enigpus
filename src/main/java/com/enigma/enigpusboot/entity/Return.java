@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,9 +24,11 @@ public class Return {
     private String id;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "return_date")
-    private Date returnDate;
+    private LocalDate returnDate;
 
-    @OneToOne
+    private Integer charge;
+
+    @ManyToOne
     @JoinColumn(name = "borrow_id")
     private Borrow borrow;
 }

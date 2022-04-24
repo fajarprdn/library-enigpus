@@ -39,6 +39,8 @@ public class Member {
     private String userName;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    @Column(name = "isblock")
+    private Boolean isBlock;
     @OneToMany(mappedBy = "member")
     private List<Borrow> borrows = new ArrayList<>();
 }

@@ -1,14 +1,21 @@
 package com.enigma.enigpusboot.controller;
 
 import com.enigma.enigpusboot.constant.ApiUrlConstant;
+import com.enigma.enigpusboot.constant.ResponseMessage;
 import com.enigma.enigpusboot.dto.BookSearchDTO;
 import com.enigma.enigpusboot.entity.Book;
+import com.enigma.enigpusboot.entity.Member;
 import com.enigma.enigpusboot.service.BookService;
+import com.enigma.enigpusboot.utils.PageResponseWrapper;
+import com.enigma.enigpusboot.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,32 +27,23 @@ public class BookController {
     @Autowired
     BookService bookService;
 
+
     @PostMapping
-    public Book createBook(@RequestBody Book book) {
-        return bookService.saveBook(book);
+    public ResponseEntity<Response<Book>> createBook(@RequestBody Book book) {
+        Response<Book> response = new Response<>();
+        String message = String.format(ResponseMessage.DATA_INSERTED,"book");
+        response.setMessage(message);
+        response.setData(bookService.saveBook(book));
+        return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(response);
     }
 
-//    @GetMapping
-//    public List<Book> getAllBook(){
-//        return bookService.getAllBook();
-//    }
-
-//    @GetMapping
-//    public Page<Book> getAllBookPerPage(@RequestParam(name = "page", defaultValue = "0") Integer page,
-//                                            @RequestParam(name = "size", defaultValue = "3") Integer sizePerPage,
-//                                            @RequestParam(name = "sortBy",defaultValue = "title") String sortByTitle,
-//                                            @RequestParam(name = "direction",defaultValue = "asc") String direction) {
-//        Sort sorting = Sort.by(Sort.Direction.fromString(direction),sortByTitle);
-//        Pageable pageable = PageRequest.of(page, sizePerPage);
-//        return bookService.getAllBookPerPage(pageable);
-//    }
-
     @GetMapping
-    public Page<Book> searchBookPerPage(@RequestBody BookSearchDTO bookSearchDTO,
-                                     @RequestParam(name = "page", defaultValue = "0") Integer page,
-                                     @RequestParam(name = "size", defaultValue = "3") Integer sizePerPage){
+    public PageResponseWrapper<Book> searchBookPerPage(@RequestBody BookSearchDTO bookSearchDTO,
+                                                       @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                       @RequestParam(name = "size", defaultValue = "3") Integer sizePerPage){
         Pageable pageable = PageRequest.of(page,sizePerPage);
-        return bookService.getBookPerPage(bookSearchDTO,pageable);
+        Page<Book> bookpage = bookService.getBookPerPage(bookSearchDTO,pageable);
+        return new PageResponseWrapper<>(bookpage);
     }
 
     @PutMapping

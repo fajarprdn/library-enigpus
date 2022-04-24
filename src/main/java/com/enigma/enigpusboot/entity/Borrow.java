@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,24 +24,20 @@ public class Borrow {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "borrow_id")
     private String id;
-//    @Column(name = "member_id")
-//    private String memberId;
     @Column(name = "borrow_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date borrowDate;
+    private LocalDate borrowDate;
     private String status;
+    @Column(name = "return_date")
+    private LocalDate returnDate;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     @JsonIgnore
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", nullable = false)
     @JsonIgnore
     private Book book;
-
-    @OneToOne
-    @JoinColumn(name = "borrow_id")
-    private Return returnbook;
 }

@@ -8,10 +8,12 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface MemberService {
-    public List<Member> getAllMember();
-    public Member getMemberById(String id);
+    Member searchMemberById(String id);
     Member getMemberByUserName(String userName);
-    public Member saveMember(Member member);
-    public void deleteMember(String id);
+    Member saveMember(Member member);
+    Member updateMember(Member member);
+    void deleteMemberById(String id);
     Page<Member> getMemberPerPage(MemberSearchDTO memberSearchDTO, Pageable pageable);
+    void blockMemberById(String id);
+    void unblockMemberById(String id);
 }

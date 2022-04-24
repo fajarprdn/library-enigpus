@@ -1,11 +1,9 @@
 package com.enigma.enigpusboot.service.impl;
 
 import com.enigma.enigpusboot.dto.MemberSearchDTO;
-import com.enigma.enigpusboot.entity.Book;
 import com.enigma.enigpusboot.entity.Member;
 import com.enigma.enigpusboot.repository.MemberRepository;
 import com.enigma.enigpusboot.service.MemberService;
-import com.enigma.enigpusboot.specification.BookSpecification;
 import com.enigma.enigpusboot.specification.MemberSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,19 +18,12 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     MemberRepository memberRepository;
 
-
     @Override
-    public List<Member> getAllMember() {
-        return memberRepository.findAll();
-    }
-
-    @Override
-    public Member getMemberById(String id) {
-        if(memberRepository.findById(id).isPresent()){
-            return memberRepository.findById(id).get();
-        }else {
-            return null;
+    public Member searchMemberById(String id) {
+        if (memberRepository.searchMemberById(id)!= null){
+            return memberRepository.searchMemberById(id);
         }
+        return null;
     }
 
     @Override
@@ -50,13 +41,28 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void deleteMember(String id) {
-        memberRepository.deleteById(id);
+    public Member updateMember(Member member) {
+        return saveMember(member);
+    }
+
+    @Override
+    public void deleteMemberById(String id) {
+        memberRepository.deleteMemberById(id);
     }
 
     @Override
     public Page<Member> getMemberPerPage(MemberSearchDTO memberSearchDTO, Pageable pageable) {
         Specification<Member> memberSpecification = MemberSpecification.getMemberSpecification(memberSearchDTO);
         return memberRepository.findAll(memberSpecification, pageable);
+    }
+
+    @Override
+    public void blockMemberById(String id) {
+         memberRepository.blockMemberById(id);
+    }
+
+    @Override
+    public void unblockMemberById(String id) {
+        memberRepository.unblockMemberById(id);
     }
 }

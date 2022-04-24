@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
+import java.util.Date;
 
 @RestController
 @RequestMapping(ApiUrlConstant.RETURN)
@@ -18,8 +18,8 @@ public class ReturnController {
     ReturnService returnService;
 
     @PostMapping
-    public void bookReturn(@RequestParam String borrowId, @RequestParam Date returnDate){
-        returnService.bookReturn(borrowId,returnDate);
+    public void bookReturn(@RequestParam String borrowId){
+        returnService.bookReturn(borrowId);
     }
 
 }

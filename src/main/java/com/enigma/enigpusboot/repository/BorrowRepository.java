@@ -2,6 +2,7 @@ package com.enigma.enigpusboot.repository;
 
 import com.enigma.enigpusboot.entity.Borrow;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +10,8 @@ import java.util.Date;
 
 @Repository
 public interface BorrowRepository extends JpaRepository<Borrow,String> {
-    Borrow findBorrowByMemberId(String id);
+    @Query(value = "select * from trx_borrow where member_id = ?1", nativeQuery = true)
+    Borrow searchBorrowByMemberId(@Param("member_id") String id);
 //    Borrow findBorrowByStatus(@Param(String status));
 
 }

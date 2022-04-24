@@ -19,15 +19,10 @@ public class BookServiceImpl implements com.enigma.enigpusboot.service.BookServi
     BookRepository bookRepository;
 
     @Override
-    public List<Book> getAllBook() {
-        return bookRepository.findAll();
-    }
-
-    @Override
-    public Book getBookById(String id) {
-        if(bookRepository.findById(id).isPresent()){
-            return bookRepository.findById(id).get();
-        }else{
+    public Book searchBookById(String id) {
+        if (bookRepository.searchBookById(id)!=null){
+            return bookRepository.searchBookById(id);
+        }else {
             return null;
         }
 
@@ -49,13 +44,4 @@ public class BookServiceImpl implements com.enigma.enigpusboot.service.BookServi
         return bookRepository.findAll(bookSpecification, pageable);
     }
 
-    @Override
-    public Page<Book> getAllBookPerPage(Pageable pageable) {
-        return bookRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Book> getBookByTitle(String title) {
-        return null;
-    }
 }
